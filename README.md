@@ -39,9 +39,21 @@ Create MySQL database table — tbl_user with the following structure.
  * Cmd Command : python main.py
 
 ## Cách dùng MySQL
+````
 mysql -u note -p123456788
+````
+````angular2html
 use note_db;
+````
+````angular2html
 SHOW TABLES;
+````
+````
 DROP TABLE NAME;
+````
+````angular2html
 SELECT * FROM tbl_user;
+````
+````angular2html
 INSERT INTO tbl_user(user_name, user_email, user_password) VALUES('tuanteo', 'tuantqt0108@gmail.com', '123456a@');
+````
