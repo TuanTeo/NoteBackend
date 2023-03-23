@@ -1,0 +1,60 @@
+Danh sách các bảng trong 'note_db'
+User:
+user_id (int), username (string), password (string), avatar (string url), email (string), phone (string), display_name (string).
+
+Task:
+task_id (int), modify_time(date), title (string), pin_enable (boolean), user_id (int), is_archived (boolean), is_deleted (boolean), delete_date (date).
+
+Description:
+des_id (int), time (date), content (string), files (string), is_done(boolean), task_id (int)
+
+API:
+Đăng nhập: POST
+request: { 'username', 'password' }
+response: { 'status': 200, 'token': string }
+
+Đăng xuất: POST
+request: { header truyền token }
+response: { 'status': 200 }
+
+
+Lấy thông tin cá nhân: GET
+request: { header truyền token }
+response: danh sách trường trong bàng user
+
+Thay đổi thông tin cá nhân: POST
+request: { header truyền token, payload: 'password', 'avatar', 'email', 'phone', 'display_name' }
+response: { 'status': 200, 'message': 'cập nhật thành công' }
+
+
+Lấy danh sách ghi chú: GET
+request: { header truyền token }
+response: { 'status': 200, 'data': tất cả dữ liệu trong bảng Task, Description }
+
+Thêm ghi chú: PUT
+request: { header truyền token, 'payload': {'title'} }
+response: { 'status': 200, 'data': tất cả dữ liệu trong bảng Task, Description }
+
+Cập nhật ghi chú: POST
+request: { header truyền token, 'payload': {'task_id', 'title', 'pin_enable', 'is_deleted', 'is_archived' } }
+response: { 'status': 200, 'data': tất cả dữ liệu trong bảng Task, Description }
+
+Xoá ghi chú: POST
+request: { header truyền token, 'payload': {'task_id'} }
+response: { 'status': 200 }
+
+Thêm ghi chú: PUT
+request: { header truyền token, 'payload': {'task_id', 'content', 'files': (mảng) } }
+response: { 'status': 200, 'data': tất cả dữ liệu trong bảng Task, Description }
+
+Sửa nội dung ghi chú: POST
+request: { header truyền token, 'payload': {'des_id', 'content', 'files': (mảng) } }
+response: { 'status': 200, 'data': tất cả dữ liệu trong bảng Task, Description }
+
+Cập nhật trạng thái ghi chú: POST
+request: { header truyền token, 'payload': {'des_id', 'is_done'} }
+response: { 'status': 200, 'data': tất cả dữ liệu trong bảng Task, Description }
+
+Xoá ghi chú: POST
+request: { header truyền token, 'payload': {'des_id'} }
+response: { 'status': 200, 'data': tất cả dữ liệu trong bảng Task, Description }
