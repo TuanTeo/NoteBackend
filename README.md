@@ -48,6 +48,10 @@ use note_db;
 ````angular2html
 SHOW TABLES;
 ````
+Các table trong DB
+````angular2html
+tbl_user, tbl_note, tbl_detal
+````
 ````
 DROP TABLE NAME;
 ````
