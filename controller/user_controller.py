@@ -1,13 +1,10 @@
 import pymysql
+from flask import jsonify
+# from werkzeug import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
 
 import main
-import user_controller
-from app import app
 from db_config import mysql
-from flask import jsonify
-from flask import flash, request
-# from werkzeug import generate_password_hash, check_password_hash
-from werkzeug.security import generate_password_hash, check_password_hash
 
 
 def add(request):

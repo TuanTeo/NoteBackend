@@ -1,12 +1,12 @@
 Danh sách các bảng trong 'note_db'
 tbl_user:
-user_id (int), username (string), password (string), avatar (string url), email (string), phone (string), display_name (string).
+user_id (int), user_name (string), user_password (string), avatar (string url), user_email (string), display_name (string).
 
-tbl_note:
-task_id (int), modify_time(date), title (string), pin_enable (boolean), user_id (int), is_archived (boolean), is_deleted (boolean), delete_date (date).
+tbl_task:
+task_id (int), modify_time (date), title (string), pin_enable (boolean), user_id (int), is_archived (boolean), is_deleted (boolean), delete_date (date).
 
 tbl_detal:
-des_id (int), time (date), content (string), files (string), is_done(boolean), task_id (int)
+detal_id (int), modify_time (date), content (string), files (string), is_done (boolean), task_id (int)
 
 API:
 Đăng nhập: POST

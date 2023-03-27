@@ -1,0 +1,7 @@
+Bước 1: Đăng ký tài khoản mới
+Bước 2: Đăng nhập vào hệ thống sử dụng username, password.
+Bước 3: Mở giao diện hỏi "Cho phép sử dụng sinh trắc học để đăng nhập những lần tới" hoặc vào Settings để bật tính năng
+sử dụng sinh trắc học để đăng nhập.
+Bước 4: Sau khi thoát app và mở lại giao diện đăng nhập, hiển thị giao diện để lấy thông tin sinh trắc học:
+ Nếu thành công -> Đăng nhập vào hệ thống.
+ Nếu thất bại quá 5 lần -> Hiển thị giao diện đăng nhập bằng username, password mặc định.

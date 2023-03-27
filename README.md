@@ -23,6 +23,31 @@ Create MySQL database table — tbl_user with the following structure.
   PRIMARY KEY (`user_id`)
   ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE `tbl_task` (
+  `task_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `modify_time` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `title` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `pin_enable` BOOL DEFAULT 0,
+  `is_archived` BOOL DEFAULT 0,
+  `is_deleted` BOOL DEFAULT 0,
+  `delete_date` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `user_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`task_id`)
+  ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `tbl_detal` (
+  `detail_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `modify_time` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `content` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `files` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `index` INT,
+  `is_done` BOOL DEFAULT 0,
+  `is_deleted` BOOL DEFAULT 0,
+  `task_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`detail_id`)
+  ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  
+
 ## Testing the Application (Use Postman For Testing)
 * Display all users
   GET http://localhost:5000/users
@@ -60,4 +85,10 @@ SELECT * FROM tbl_user;
 ````
 ````angular2html
 INSERT INTO tbl_user(user_name, user_email, user_password) VALUES('tuanteo', 'tuantqt0108@gmail.com', '123456a@');
+````
+````angular2html
+UPDATE tbl_task SET title=%s, pin_enable=%s, is_deleted=%s WHERE task_id=%s
+````
+````angular2html
+DELETE FROM tbl_user WHERE user_id=%s
 ````
