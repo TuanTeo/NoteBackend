@@ -35,7 +35,7 @@ CREATE TABLE `tbl_task` (
   PRIMARY KEY (`task_id`)
   ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `tbl_detal` (
+CREATE TABLE `tbl_detail` (
   `detail_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `modify_time` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `content` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,

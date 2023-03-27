@@ -1,4 +1,4 @@
-from controller import user_controller, task_controller
+from controller import user_controller, task_controller, detail_controller
 from app import app
 from flask import jsonify
 from flask import request
@@ -55,6 +55,24 @@ def delete_task(id):
 
 
 # ----------------- Detail API ------------------
+@app.route('/detail/add', methods=['POST'])
+def add_detail():
+    return detail_controller.add(request)
+
+
+@app.route('/detail/<int:id>')
+def get_detail_by_task_id(id):
+    return detail_controller.get_detail_by_task_id(id)
+
+
+@app.route('/detail/update', methods=['POST'])
+def update_detail():
+    return detail_controller.update_detail(request)
+
+
+@app.route('/detail/delete/<int:id>')
+def delete_detail(id):
+    return detail_controller.delete_detail_by_id(id)
 
 
 @app.errorhandler(404)

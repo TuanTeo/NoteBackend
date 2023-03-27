@@ -14,19 +14,19 @@ def add(request):
     print('add detail')
     try:
         _json = request.json
-        _title = _json['title']
-        _pin = _json['pin_enable']
-        _user_id = _json['user_id']
+        _content = _json['content']
+        _files = _json['files']
+        _task_id = _json['task_id']
         # validate the received values
-        if _title and _user_id and request.method == 'POST':
+        if _content and _task_id and request.method == 'POST':
             # save edits
-            sql = "INSERT INTO tbl_task(title, pin_enable, user_id) VALUES(%s, %s, %s)"
-            data = (_title, _pin, _user_id,)
+            sql = "INSERT INTO tbl_detail(content, files, task_id) VALUES(%s, %s, %s)"
+            data = (_content, _files, _task_id,)
             conn = mysql.connect()
             cursor = conn.cursor()
             cursor.execute(sql, data)
             conn.commit()
-            resp = jsonify('Task added successfully!')
+            resp = jsonify('Detail added successfully!')
             resp.status_code = 200
             return resp
         else:
@@ -38,12 +38,12 @@ def add(request):
         conn.close()
 
 
-# Danh sách task theo user_id -> Trả về luôn danh sách detail
-def get_task_by_user_id(id):
+# Danh sách detail
+def get_detail_by_task_id(id):
     try:
         conn = mysql.connect()
         cursor = conn.cursor(pymysql.cursors.DictCursor)
-        cursor.execute("SELECT * FROM tbl_task WHERE user_id=%s", id)
+        cursor.execute("SELECT * FROM tbl_detail WHERE task_id=%s", id)
         rows = cursor.fetchall()
         resp = jsonify(rows)
         resp.status_code = 200
@@ -55,25 +55,25 @@ def get_task_by_user_id(id):
         conn.close()
 
 
-# Cập nhật lại task
-def update_task(request):
+# Cập nhật lại detail
+def update_detail(request):
     try:
         _json = request.json
-        _id = _json['task_id']
-        _title = _json['title']
-        _pin = _json['pin_enable']
+        _id = _json['detail_id']
+        _content = _json['content']
+        _isDone = _json['is_done']
+        _files = _json['files']
         _isDelete = _json['is_deleted']
-        _isArchive = _json['is_archived']
         # validate the received values
-        if (_title or _pin or _isDelete or _isArchive or _id) and request.method == 'POST':
+        if (_content or _isDone or _isDelete or _files or _id) and request.method == 'POST':
             # save edits
-            sql = "UPDATE tbl_task SET title=%s, pin_enable=%s, is_deleted=%s, is_archived=%s WHERE task_id=%s"
-            data = (_title, _pin, _isDelete, _isArchive, _id,)
+            sql = "UPDATE tbl_detail SET content=%s, is_done=%s, is_deleted=%s, files=%s WHERE detail_id=%s"
+            data = (_content, _isDone, _isDelete, _files, _id,)
             conn = mysql.connect()
             cursor = conn.cursor()
             cursor.execute(sql, data)
             conn.commit()
-            resp = jsonify('Task updated successfully!')
+            resp = jsonify('Detail updated successfully!')
             resp.status_code = 200
             return resp
         else:
@@ -85,14 +85,14 @@ def update_task(request):
         conn.close()
 
 
-# Xoá task theo id
-def delete_task_by_id(id):
+# Xoá detail theo id
+def delete_detail_by_id(id):
     try:
         conn = mysql.connect()
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM tbl_task WHERE task_id=%s", (id,))
+        cursor.execute("DELETE FROM tbl_detail WHERE detail_id=%s", (id,))
         conn.commit()
-        resp = jsonify('Task deleted successfully!')
+        resp = jsonify('Detail deleted successfully!')
         resp.status_code = 200
         return resp
     except Exception as e:
