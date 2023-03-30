@@ -1,8 +1,11 @@
 import pymysql
-from flask import jsonify
+from flask import jsonify, make_response
 # from werkzeug import generate_password_hash, check_password_hash
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
+import jwt
+from datetime import datetime, timedelta, timezone
 
+from app import app
 import main
 from db_config import mysql
 
@@ -110,6 +113,35 @@ def delete_user_by_id(id):
         return resp
     except Exception as e:
         print(e)
+    finally:
+        cursor.close()
+        conn.close()
+
+
+def login(request):
+    try:
+        print('SECRET_KEY = ', app.config['SECRET_KEY'])
+        _json = request.json
+        _name = _json['user_name']
+        _password = _json['user_password']
+        # validate the received values
+        if _name and _password and request.method == 'POST':
+            _hashed_password = generate_password_hash(_password)
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+            cursor.execute("SELECT * FROM tbl_user WHERE user_name=%s", _name)
+            row = cursor.fetchone()
+            if check_password_hash(row['user_password'], _password):
+                # Sinh token jwt
+                token = jwt.encode({'user_name': _name, 'user_id': row['user_id']}, app.config['SECRET_KEY'])
+                resp = jsonify({'token': token})
+                resp.status_code = 200
+                return resp
+            else:
+                return make_response('Could not verify')
+    except Exception as e:
+        print(e)
+        return make_response('Error when verify')
     finally:
         cursor.close()
         conn.close()

@@ -5,9 +5,15 @@ from flask import request
 
 
 # from werkzeug import generate_password_hash, check_password_hash
+app.config['SECRET_KEY'] = 'Tuantqt0108@gmai.com'
 
 
 # ----------------- User API ------------------
+@app.route('/login', methods=['POST'])
+def login():
+    return user_controller.login(request)
+
+
 @app.route('/user/add', methods=['POST'])
 def add_user():
     return user_controller.add(request)
