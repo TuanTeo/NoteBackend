@@ -21,12 +21,12 @@ def add_user():
 
 @app.route('/users')
 def users():
-    return user_controller.get_all_user()
+    return user_controller.get_all_user(request)
 
 
 @app.route('/user/<int:id>')
 def user(id):
-    return user_controller.get_user_by_id(id)
+    return user_controller.get_user_by_id(request, id)
 
 
 @app.route('/user/update', methods=['POST'])
@@ -36,7 +36,7 @@ def update_user():
 
 @app.route('/user/delete/<int:id>')
 def delete_user(id):
-    return user_controller.delete_user_by_id(id)
+    return user_controller.delete_user_by_id(request, id)
 
 
 # ----------------- Task API ------------------
@@ -47,7 +47,7 @@ def add_task():
 
 @app.route('/task/<int:id>')
 def get_task_by_user_id(id):
-    return task_controller.get_task_by_user_id(id)
+    return task_controller.get_task_by_user_id(request, id)
 
 
 @app.route('/task/update', methods=['POST'])
@@ -57,7 +57,7 @@ def update_task():
 
 @app.route('/task/delete/<int:id>')
 def delete_task(id):
-    return task_controller.delete_task_by_id(id)
+    return task_controller.delete_task_by_id(request, id)
 
 
 # ----------------- Detail API ------------------
@@ -68,7 +68,7 @@ def add_detail():
 
 @app.route('/detail/<int:id>')
 def get_detail_by_task_id(id):
-    return detail_controller.get_detail_by_task_id(id)
+    return detail_controller.get_detail_by_task_id(request, id)
 
 
 @app.route('/detail/update', methods=['POST'])
@@ -78,7 +78,7 @@ def update_detail():
 
 @app.route('/detail/delete/<int:id>')
 def delete_detail(id):
-    return detail_controller.delete_detail_by_id(id)
+    return detail_controller.delete_detail_by_id(request, id)
 
 
 @app.errorhandler(404)
