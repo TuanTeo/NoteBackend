@@ -46,6 +46,17 @@ CREATE TABLE `tbl_detail` (
   `task_id` bigint(20) NOT NULL,
   PRIMARY KEY (`detail_id`)
   ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `tbl_biometric` (
+  `session_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_name` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `public_key` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `sign` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `biometric` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `token` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `token_proved` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`session_id`)
+  ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
   
 
 ## Testing the Application (Use Postman For Testing)
