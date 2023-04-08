@@ -74,6 +74,10 @@ CREATE TABLE `tbl_biometric` (
  * Response : “User added successfully!”
  * Cmd Command : python main.py
 
+````angular2html
+flask --app main.py --debug run
+````
+
 ## Cách dùng MySQL
 ````
 mysql -u note -p123456788

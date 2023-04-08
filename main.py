@@ -14,6 +14,21 @@ def login():
     return user_controller.login(request)
 
 
+@app.route('/requestLogin', methods=['POST'])
+def request_login_biometric():
+    return user_controller.request_login_biometric(request)
+
+
+@app.route('/verifyLogin', methods=['POST'])
+def verify_login_biometric():
+    return user_controller.verify_biometric(request)
+
+
+@app.route('/addPublicKey', methods=['POST'])
+def add_public_key():
+    return user_controller.add_public_key(request)
+
+
 @app.route('/user/add', methods=['POST'])
 def add_user():
     return user_controller.add(request)
