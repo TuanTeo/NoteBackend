@@ -3,15 +3,12 @@ import random
 
 import pymysql
 from flask import jsonify, make_response
-# from werkzeug import generate_password_hash, check_password_hash
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
-import base64
-import rsa
-
 from app import app
 import main
 from db_config import mysql
+from utils.secretUtils import verifyMessage
 
 
 def add(request):
@@ -215,24 +212,6 @@ def request_login_biometric(request):
     # finally:
         # cursor.close()
         # conn.close()
-
-
-def verifyMessage(message, signature, public_key):
-    signature_bytes = base64.b64decode(signature)
-    pubKey = rsa.PublicKey._load_pkcs1_pem(public_key.encode())
-    try:
-        result = rsa.verify(
-            message.encode('utf-8'), signature_bytes, pubKey)
-
-        is_verified = True
-
-        if result is None:
-            is_verified = False
-
-    except rsa.VerificationError:
-        is_verified = False
-
-    return is_verified
 
 
 def verify_biometric(request):
