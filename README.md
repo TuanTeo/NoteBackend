@@ -90,7 +90,7 @@ SHOW TABLES;
 ````
 Các table trong DB
 ````angular2html
-tbl_user, tbl_note, tbl_detal
+tbl_user, tbl_note, tbl_detal, tbl_biometric
 ````
 ````
 DROP TABLE NAME;

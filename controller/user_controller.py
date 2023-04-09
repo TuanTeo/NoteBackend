@@ -209,9 +209,9 @@ def request_login_biometric(request):
     except Exception as e:
         print(e)
         return make_response('Error when request')
-    # finally:
-        # cursor.close()
-        # conn.close()
+    finally:
+        cursor.close()
+        conn.close()
 
 
 def verify_biometric(request):
@@ -276,29 +276,38 @@ def add_public_key(request):
     try:
         _json = request.json
         _user_name = _json['user_name']
-        _token_proved = _json['token_proved']
-        _biometric = _json['biometric']
-        print('_name', _name)
-        print('_token_proved', _token_proved)
-        print('_biometric', _biometric)
+        _public_key = _json['public_key']
+        print('_name', _user_name)
+        print('_public_key', _public_key)
         # validate the received values
-        if _name and _token_proved and _biometric and request.method == 'POST':
-            # Query tbl_biometric lấy ra public key, token, sign
-
-
-            # decode _biometric và _token_proved bằng public key
-            # Chuẩn mã hoá, giải mã public key RSA 4096
-            decryptor = PKCS1_OAEP.new(public_key)
-            token_decode = decryptor.decrypt(ast.literal_eval(str(_token_proved)))
-            biometric = decryptor.decrypt(ast.literal_eval(str(_biometric)))
-
-            # Check token == token_decode and biometric == sign => trả về token jwt và đăng nhập thành công
-
+        if _user_name and _public_key and request.method == 'POST':
+            # Check neu chua co thi Insert public key vào tbl_biometric
+            # Neu co roi thi update lai public_key moi
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+            cursor.execute("SELECT * FROM tbl_biometric WHERE user_name=%s", _user_name)
+            row = cursor.fetchone()
+            if row is None:
+                # Chua co thong tin
+                sql = "INSERT INTO tbl_biometric(user_name, public_key) VALUES(%s, %s)"
+                data = (_user_name, _public_key,)
+                conn = mysql.connect()
+                cursor = conn.cursor()
+                cursor.execute(sql, data)
+                conn.commit()
+            else:
+                sql = "UPDATE tbl_biometric SET public_key=%s WHERE user_name=%s"
+                data = (_public_key, _user_name,)
+                conn = mysql.connect()
+                cursor = conn.cursor()
+                cursor.execute(sql, data)
+                conn.commit()
+            resp = jsonify("Success!")
             resp.status_code = 200
             return resp
     except Exception as e:
         print(e)
-        return make_response('Error when request')
-    # finally:
-        # cursor.close()
-        # conn.close()
+        return make_response('Failed!')
+    finally:
+        cursor.close()
+        conn.close()
