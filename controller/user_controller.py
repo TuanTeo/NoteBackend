@@ -12,10 +12,10 @@ from utils.secretUtils import verifyMessage
 
 
 def add(request):
-    try:
-        _token = request.headers['Token']
-        _data = jwt.decode(_token, app.config['SECRET_KEY'], "HS256")
-        if _data:
+    # try:
+        # _token = request.headers['Token']
+        # _data = jwt.decode(_token, app.config['SECRET_KEY'], "HS256")
+        # if _data:
             try:
                 _json = request.json
                 _name = _json['user_name']
@@ -43,8 +43,8 @@ def add(request):
             finally:
                 cursor.close()
                 conn.close()
-    except Exception as e:
-        return make_response('Invalid token')
+    # except Exception as e:
+    #     return make_response('Invalid token')
 
 
 def get_all_user(request):
@@ -168,7 +168,7 @@ def login(request):
             if check_password_hash(row['user_password'], _password):
                 # Sinh token jwt
                 token = jwt.encode({'user_name': _name, 'user_id': row['user_id']}, app.config['SECRET_KEY'])
-                resp = jsonify({'token': token})
+                resp = jsonify({'token': token, 'user_id': row['user_id']})
                 resp.status_code = 200
                 return resp
             else:
