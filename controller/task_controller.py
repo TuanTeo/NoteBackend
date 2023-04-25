@@ -55,8 +55,14 @@ def get_task_by_user_id(request, id):
                 conn = mysql.connect()
                 cursor = conn.cursor(pymysql.cursors.DictCursor)
                 cursor.execute("SELECT * FROM tbl_task WHERE user_id=%s", id)
-                rows = cursor.fetchall()
-                resp = jsonify(rows)
+                taskRows = cursor.fetchall()
+                index = 0
+                for x in taskRows:
+                    cursor.execute("SELECT * FROM tbl_detail WHERE task_id=%s", x['task_id'])
+                    (taskRows[index])['detail'] = cursor.fetchall()
+                    index += 1
+                    # print(taskRows)
+                resp = jsonify(taskRows)
                 resp.status_code = 200
                 return resp
             except Exception as e:
