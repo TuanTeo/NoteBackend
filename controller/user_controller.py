@@ -244,7 +244,7 @@ def verify_biometric(request):
                 return resp
             else:
                 resp = jsonify("Cant verify!")
-                resp.status_code = 400
+                resp.status_code = 200
                 return resp
     except Exception as e:
         print(e)
