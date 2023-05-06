@@ -239,7 +239,7 @@ def verify_biometric(request):
                 cursor.execute("SELECT * FROM tbl_user WHERE user_name=%s", _user_name)
                 user_row = cursor.fetchone()
                 token = jwt.encode({'user_name': _user_name, 'user_id': user_row['user_id']}, app.config['SECRET_KEY'])
-                resp = jsonify({'token': token, 'user_id': row['user_id']})
+                resp = jsonify({'token': token})
                 resp.status_code = 200
                 return resp
             else:
