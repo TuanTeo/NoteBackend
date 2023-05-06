@@ -31,7 +31,7 @@ def add(request):
                     cursor = conn.cursor()
                     cursor.execute(sql, data)
                     conn.commit()
-                    resp = jsonify('Detail added successfully!')
+                    resp = jsonify({'detail_id': cursor.lastrowid})
                     resp.status_code = 200
                     return resp
                 else:

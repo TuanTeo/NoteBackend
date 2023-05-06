@@ -51,10 +51,11 @@ CREATE TABLE `tbl_biometric` (
   `session_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_name` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
   `public_key` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
-  `sign` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
-  `biometric` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
-  `token` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
-  `token_proved` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `c` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `h` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `u` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `g` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `z` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`session_id`)
   ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
   

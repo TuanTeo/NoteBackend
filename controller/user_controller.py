@@ -188,7 +188,11 @@ def request_login_biometric(request):
     try:
         _json = request.json
         _user_name = _json['user_name']
-        _sign = _json['sign']
+        _sign = _json['h']
+        _h = _json['h']
+        _u = _json['u']
+        _g = _json['g']
+
         # print('_name', _user_name)
         # print('_sign', _sign)
         # validate the received values

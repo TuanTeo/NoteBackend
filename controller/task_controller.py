@@ -23,7 +23,7 @@ def add(request):
                 _pin = _json['pin_enable']
                 _user_id = _json['user_id']
                 # validate the received values
-                if _title and _user_id and request.method == 'POST':
+                if _user_id and request.method == 'POST':
                     # save edits
                     sql = "INSERT INTO tbl_task(title, pin_enable, user_id) VALUES(%s, %s, %s)"
                     data = (_title, _pin, _user_id,)
@@ -31,7 +31,7 @@ def add(request):
                     cursor = conn.cursor()
                     cursor.execute(sql, data)
                     conn.commit()
-                    resp = jsonify('Task added successfully!')
+                    resp = jsonify({'task_id': cursor.lastrowid})
                     resp.status_code = 200
                     return resp
                 else:
