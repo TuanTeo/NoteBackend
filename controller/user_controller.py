@@ -190,20 +190,18 @@ def request_login_biometric(request):
         _user_name = _json['user_name']
         _h = _json['h']
         _u = _json['u']
-        _g = _json['g']
 
         # print('_name', _user_name)
         # print('_h', _h)
         # print('_u', _u)
-        # print('_g', _g)
         # validate the received values
-        if _user_name and _h and _u and _g and request.method == 'POST':
+        if _user_name and _h and _u and request.method == 'POST':
             # create random token
             c = random.getrandbits(128)
             # print('token', c)
             # update vào bảng tbl_biometric
-            sql = "UPDATE tbl_biometric SET c=%s, h=%s, u=%s, g=%s WHERE user_name=%s"
-            data = (c, _h, _u, _g, _user_name,)
+            sql = "UPDATE tbl_biometric SET c=%s, h=%s, u=%s WHERE user_name=%s"
+            data = (c, _h, _u, _user_name,)
             conn = mysql.connect()
             cursor = conn.cursor()
             cursor.execute(sql, data)
@@ -289,7 +287,7 @@ def add_public_key(request):
                         conn.commit()
                     else:
                         sql = "UPDATE tbl_biometric SET public_key=%s, g=%s WHERE user_name=%s"
-                        data = (_public_key, _user_name, _gen)
+                        data = (_public_key, _gen, _user_name,)
                         conn = mysql.connect()
                         cursor = conn.cursor()
                         cursor.execute(sql, data)
