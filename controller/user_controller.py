@@ -263,33 +263,38 @@ def add_public_key(request):
             try:
                 _json = request.json
                 _user_name = _json['user_name']
-                _public_key = _json['public_key']
+                # _public_key = _json['public_key']
                 # print('_name', _user_name)
                 # print('_public_key', _public_key)
                 # validate the received values
-                if _user_name and _public_key and request.method == 'POST':
+                if _user_name and request.method == 'POST':
                     # Check neu chua co thi Insert public key vào tbl_biometric
                     # Neu co roi thi update lai public_key moi
+
+                    # Tạo public key và g0
+                    _public_key = random.getrandbits(128)
+                    _gen = random.getrandbits(64)
+
                     conn = mysql.connect()
                     cursor = conn.cursor(pymysql.cursors.DictCursor)
                     cursor.execute("SELECT * FROM tbl_biometric WHERE user_name=%s", _user_name)
                     row = cursor.fetchone()
                     if row is None:
                         # Chua co thong tin
-                        sql = "INSERT INTO tbl_biometric(user_name, public_key) VALUES(%s, %s)"
-                        data = (_user_name, _public_key,)
+                        sql = "INSERT INTO tbl_biometric(user_name, public_key, g) VALUES(%s, %s)"
+                        data = (_user_name, _public_key, _gen)
                         conn = mysql.connect()
                         cursor = conn.cursor()
                         cursor.execute(sql, data)
                         conn.commit()
                     else:
-                        sql = "UPDATE tbl_biometric SET public_key=%s WHERE user_name=%s"
-                        data = (_public_key, _user_name,)
+                        sql = "UPDATE tbl_biometric SET public_key=%s, g=%s WHERE user_name=%s"
+                        data = (_public_key, _user_name, _gen)
                         conn = mysql.connect()
                         cursor = conn.cursor()
                         cursor.execute(sql, data)
                         conn.commit()
-                    resp = jsonify("Success!")
+                    resp = jsonify({'public_key': str(_public_key), 'g': str(_gen)})
                     resp.status_code = 200
                     return resp
             except Exception as e:
