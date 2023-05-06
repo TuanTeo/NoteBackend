@@ -8,7 +8,7 @@ import jwt
 from app import app
 import main
 from db_config import mysql
-from utils.secretUtils import verifyMessage
+from utils.secretUtils import verifyProof
 
 
 def add(request):
@@ -188,26 +188,27 @@ def request_login_biometric(request):
     try:
         _json = request.json
         _user_name = _json['user_name']
-        _sign = _json['h']
         _h = _json['h']
         _u = _json['u']
         _g = _json['g']
 
         # print('_name', _user_name)
-        # print('_sign', _sign)
+        # print('_h', _h)
+        # print('_u', _u)
+        # print('_g', _g)
         # validate the received values
-        if _user_name and request.method == 'POST':
+        if _user_name and _h and _u and _g and request.method == 'POST':
             # create random token
-            token = random.getrandbits(128)
-            # print('token', token)
+            c = random.getrandbits(128)
+            # print('token', c)
             # update vào bảng tbl_biometric
-            sql = "UPDATE tbl_biometric SET sign=%s, token=%s WHERE user_name=%s"
-            data = (_sign, token, _user_name,)
+            sql = "UPDATE tbl_biometric SET c=%s, h=%s, u=%s, g=%s WHERE user_name=%s"
+            data = (c, _h, _u, _g, _user_name,)
             conn = mysql.connect()
             cursor = conn.cursor()
             cursor.execute(sql, data)
             conn.commit()
-            resp = jsonify(token)
+            resp = jsonify(str(c))
             resp.status_code = 200
             return resp
     except Exception as e:
@@ -222,26 +223,23 @@ def verify_biometric(request):
     try:
         _json = request.json
         _user_name = _json['user_name']
-        _token_proved = _json['token_proved']
-        _biometric = _json['biometric']
+        _z = _json['z']
         # print('_name', _user_name)
-        # print('_token_proved', _token_proved)
-        # print('_biometric', _biometric)
+        # print('_z', _z)
         # validate the received values
-        if _user_name and _token_proved and _biometric and request.method == 'POST':
+        if _user_name and _z and request.method == 'POST':
             # Query tbl_biometric lấy ra public key, token, sign
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
             cursor.execute("SELECT * FROM tbl_biometric WHERE user_name=%s", _user_name)
             row = cursor.fetchone()
 
-            if verifyMessage(_biometric, row['sign'], row['public_key']) \
-                    and verifyMessage(row['token'], _token_proved, row['public_key']):
+            if verifyProof(_z, row['public_key'], row['c'], row['h'], row['u'], row['g']):
                 # Sinh token jwt
                 cursor.execute("SELECT * FROM tbl_user WHERE user_name=%s", _user_name)
                 user_row = cursor.fetchone()
                 token = jwt.encode({'user_name': _user_name, 'user_id': user_row['user_id']}, app.config['SECRET_KEY'])
-                resp = jsonify({'token': token})
+                resp = jsonify({'token': token, 'user_id': row['user_id']})
                 resp.status_code = 200
                 return resp
             else:
