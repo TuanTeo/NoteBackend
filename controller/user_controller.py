@@ -211,7 +211,11 @@ def request_login_biometric(request):
             return resp
     except Exception as e:
         print(e)
-        return make_response('Error when request')
+        # return make_response('Error when request')
+        return make_response({
+            'success': 'Failed!',
+            'error': e
+        })
     finally:
         cursor.close()
         conn.close()
@@ -246,7 +250,11 @@ def verify_biometric(request):
                 return resp
     except Exception as e:
         print(e)
-        return make_response('Error when request')
+        # return make_response('Error when request')
+        return make_response({
+            'success': 'Failed!',
+            'error': e
+        })
     finally:
         cursor.close()
         conn.close()
@@ -297,7 +305,11 @@ def add_public_key(request):
                     return resp
             except Exception as e:
                 print(e)
-                return make_response('Failed!')
+                return make_response({
+                    'success': 'Failed!',
+                    'token': _token,
+                    'error': e
+                })
             finally:
                 cursor.close()
                 conn.close()
