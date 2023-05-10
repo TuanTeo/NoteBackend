@@ -262,10 +262,10 @@ def verify_biometric(request):
 
 # Insert public key vào tbl_biometric
 def add_public_key(request):
-    try:
-        _token = request.headers['Token']
-        _data = jwt.decode(_token, app.config['SECRET_KEY'], "HS256")
-        if _data:
+#     try:
+#         _token = request.headers['Token']
+#         _data = jwt.decode(_token, app.config['SECRET_KEY'], "HS256")
+#         if _data:
             try:
                 _json = request.json
                 _user_name = _json['user_name']
@@ -313,5 +313,5 @@ def add_public_key(request):
             finally:
                 cursor.close()
                 conn.close()
-    except Exception as e:
-        return make_response('Invalid token')
+#     except Exception as e:
+#         return make_response('Invalid token')
