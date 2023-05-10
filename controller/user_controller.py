@@ -287,7 +287,7 @@ def add_public_key(request):
                     row = cursor.fetchone()
                     if row is None:
                         # Chua co thong tin
-                        sql = "INSERT INTO tbl_biometric(user_name, public_key, g) VALUES(%s, %s)"
+                        sql = "INSERT INTO tbl_biometric(user_name, public_key, g) VALUES(%s, %s, %s)"
                         data = (_user_name, _public_key, _gen)
                         conn = mysql.connect()
                         cursor = conn.cursor()
